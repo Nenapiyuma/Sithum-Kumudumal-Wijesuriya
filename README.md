@@ -39,6 +39,10 @@ Run a headless boot smoke test (requires QEMU):
 
 Push to `main` or use **Actions → Build Wijesuriya OS** to run the source checks, build the ISO, and test booting it in QEMU. The ISO is uploaded as an artifact only when the build and smoke test pass.
 
+## Application compatibility roadmap
+
+The requested Windows (.exe/.msi/.com), Android (.apk), and iOS (.ipa) compatibility is a staged goal, not a current feature. See [the application compatibility roadmap](docs/application-compatibility.md) for the proposed runtimes, limitations, and test requirements. This starter image must first become a tested desktop system before these applications can be supported.
+
 ## Important limitations
 This is a small starter Linux distribution, not a Windows replacement or a complete desktop environment. The first build is intended to verify that the kernel boots and reaches userspace. Hardware support, networking, a desktop interface, installers, persistence, and security hardening are future work.
 
