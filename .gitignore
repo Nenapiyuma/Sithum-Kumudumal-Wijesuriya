@@ -1,0 +1,6 @@
+/buildroot/
+/output/
+/dl/
+/.tmp/
+/*.iso
+*.log
