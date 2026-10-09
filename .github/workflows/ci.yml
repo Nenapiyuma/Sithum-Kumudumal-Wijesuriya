@@ -1,0 +1,45 @@
+name: Build Wijesuriya OS
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  source-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check shell scripts
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y shellcheck
+          bash scripts/check-project.sh
+          shellcheck scripts/*.sh
+
+  build-and-boot-test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential git wget cpio unzip rsync bc file             libncurses-dev python3 xorriso grub-pc-bin grub-efi-amd64-bin mtools             qemu-system-x86 shellcheck
+      - name: Build ISO
+        run: ./scripts/build-iso.sh
+      - name: Test boot in QEMU
+        run: ./scripts/test-iso-qemu.sh output/Wijesuriya-OS-x86_64.iso
+      - name: Upload boot-tested ISO
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: Wijesuriya-OS-x86_64
+          path: |
+            output/Wijesuriya-OS-x86_64.iso
+            output/Wijesuriya-OS-x86_64.iso.sha256
+          if-no-files-found: error
