@@ -39,9 +39,9 @@ jobs:
           grub-mkrescue --version
           qemu-system-x86_64 --version | head -n 1
       - name: Build ISO
-        run: ./scripts/build-iso.sh
+        run: bash scripts/build-iso.sh
       - name: Test boot in QEMU
-        run: ./scripts/test-iso-qemu.sh output/Wijesuriya-OS-x86_64.iso
+        run: bash scripts/test-iso-qemu.sh output/Wijesuriya-OS-x86_64.iso
       - name: Upload boot-tested ISO
         if: success()
         uses: actions/upload-artifact@v4
